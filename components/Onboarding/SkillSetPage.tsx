@@ -5,6 +5,7 @@ import forwardarrow from "@/assets/forwardarrow.svg";
 import Search from "@/assets/Search.svg";
 import { Select, SelectOption } from "@/components/AppSkillSetSelection";
 import APPButton from "../AppButton";
+import { useOnboardingContext } from "@/context/OnboardingContext";
 
 export const dummyItems: string[] = [
   "Item 1",
@@ -43,11 +44,27 @@ const SkillSetPage: React.FC = () => {
   const [value1, setValue1] = useState<SelectOption[]>([options[0]]);
   const [value2, setValue2] = useState<SelectOption[]>([option2[0]]);
   const [loader, setLoader] = useState(false);
+  const { selectedSection, setSelectedSection } = useOnboardingContext();
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setLoader(true);
     // Perform form submission logic here
+  };
+  const handleNext = () => {
+    setLoader(true);
+    new Promise<void>((resolve) => {
+      console.log("inside promise");
+      setTimeout(() => {
+        setSelectedSection("authorization");
+        resolve();
+      }, 1000);
+    }).then(() => {
+      setLoader(false);
+    });
+
+    // if (selectedSection === "authorization") {
+    // }
   };
 
   return (
@@ -133,6 +150,7 @@ const SkillSetPage: React.FC = () => {
                 </span>
                 <APPButton
                   types="submit"
+                  onClick={() => handleNext()}
                   text="Save & continue"
                   loading={loader}
                   classname="w-44 border-gray-300 font-semibold"

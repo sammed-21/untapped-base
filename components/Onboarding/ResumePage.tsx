@@ -10,6 +10,7 @@ import { DropdownOption } from "@/components/AppDropDown";
 import DateInput from "../AppData";
 import AppSearchInput from "../AppSearchInput";
 import AppCustomFileInput from "../AppCustomFileInput";
+import { useOnboardingContext } from "@/context/OnboardingContext";
 
 export const dummyItems: string[] = [
   "Item 1",
@@ -54,7 +55,8 @@ const WorkExperience: React.FC = ({}) => {
     enddate: "",
   });
   const [error, setError] = useState(false);
-  const [loader, setLoader] = useState(false);
+  const { handleNext, loader } = useOnboardingContext();
+
   const [visiblePassword, setVisiblePassword] = useState(false);
   const [buttonDisabled, setButtonDisabled] = React.useState(true);
 
@@ -84,7 +86,6 @@ const WorkExperience: React.FC = ({}) => {
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const isAnyEmpty = Object.values(name).some((value) => value === "");
-    setLoader(true);
     if (isAnyEmpty) {
       setError(true);
     } else {
@@ -175,7 +176,7 @@ const WorkExperience: React.FC = ({}) => {
                 <APPButton
                   types="button"
                   // disabled={buttonDisabled}
-
+                  onClick={() => handleNext("skillset")}
                   aria-label="submit signup-form form"
                   text="Save & continue"
                   loading={loader}

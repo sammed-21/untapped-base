@@ -11,6 +11,7 @@ import CustomDropdown, { DropdownOption } from "@/components/AppDropDown";
 import DateInput from "../AppData";
 import AppSearchInput from "../AppSearchInput";
 import { useGlobalState } from "@/context/globalstateContainer";
+import { useOnboardingContext } from "@/context/OnboardingContext";
 // import { useOnboardingContext } from "@/context/OnboardingContext"; // Provide the correct path to your OnboardingProvider file
 
 export const dummyItems: string[] = [
@@ -31,6 +32,11 @@ const dropdownOptions: DropdownOption[] = [
   { label: "Executive Leader", value: "executiveleader" },
 ];
 const WorkExperience: React.FC = ({}) => {
+  const {
+    selectedSection,
+    setSelectedSection,
+    handleNext,
+  } = useOnboardingContext();
   const { state, dispatch } = useGlobalState();
   const { index } = state;
   const setIndex = (newIndex: string) => {
@@ -165,7 +171,6 @@ const WorkExperience: React.FC = ({}) => {
                 errors={error}
                 name="checkbox"
                 value={""}
-                required={false}
                 classname=" w-6 h-6  border-[1px] border-gray-300 text-blue-500"
                 label=""
                 onChange={handleCheckboxChange}
@@ -175,7 +180,7 @@ const WorkExperience: React.FC = ({}) => {
               </span>
             </div>
             <div
-              className={`flex   gap-[24px] w-full ${
+              className={`flex justify-center gap-[24px] w-full max-w-4xl ${
                 isChecked ? "justify-center" : ""
               }`}
             >
@@ -325,7 +330,7 @@ const WorkExperience: React.FC = ({}) => {
                   types="submit"
                   forward
                   // disabled={buttonDisabled}
-
+                  onClick={() => handleNext("education")}
                   aria-label="submit signup-form form"
                   text="Save & continue"
                   loading={loader}

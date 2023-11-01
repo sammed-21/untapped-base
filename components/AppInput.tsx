@@ -65,7 +65,6 @@ const AppInput: FC<InputProps> = ({
           handlePasswordChange(e);
           onChange(e);
         }}
-        required
         disabled={disabled}
         data-focused={focused}
         onBlur={handleFocus}

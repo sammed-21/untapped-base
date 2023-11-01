@@ -12,6 +12,7 @@ import DateInput from "../AppData";
 import AppSearchInput from "../AppSearchInput";
 import Textarea from "../AppTextarea";
 import PreviousMap from "postcss/lib/previous-map";
+import { useOnboardingContext } from "@/context/OnboardingContext";
 
 export const dummyItems: string[] = [
   "Item 1",
@@ -34,6 +35,7 @@ const EducationPage: React.FC = ({}) => {
   const [selectedItem, setSelectedItem] = useState<string>(""); // State to manage selected item in sidebar
   const [isChecked, setIsChecked] = useState(false); // State for checkbox
   const [endDate, setIsEndDate] = useState(false); // State for checkbox
+  const { handleNext, loader } = useOnboardingContext();
   const handleCheckboxChange = (e: ChangeEvent<HTMLInputElement>) => {
     console.log(e.target.checked);
     setIsChecked(e.target.checked);
@@ -48,7 +50,6 @@ const EducationPage: React.FC = ({}) => {
   // Handler to change the selected item in the sidebar
 
   const [error, setError] = useState(false);
-  const [loader, setLoader] = useState(false);
   const [visiblePassword, setVisiblePassword] = useState(false);
   const [buttonDisabled, setButtonDisabled] = React.useState(true);
   const [majors, setMajors] = useState<string[]>([]);
@@ -102,7 +103,6 @@ const EducationPage: React.FC = ({}) => {
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const isAnyEmpty = Object.values(name).some((value) => value === "");
-    setLoader(true);
     if (isAnyEmpty) {
       setError(true);
     } else {
@@ -396,6 +396,7 @@ const EducationPage: React.FC = ({}) => {
                   aria-label="submit signup-form form"
                   text="Save & continue"
                   loading={loader}
+                  onClick={() => handleNext("resume")}
                   classname="w-44   border-gray-300 font-semibold"
                 />
               </span>

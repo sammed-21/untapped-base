@@ -10,6 +10,7 @@ import AuthorizationPage from "@/components/Onboarding/AuthorizationPage";
 import EducationPage from "@/components/Onboarding/EducationPage";
 import logo from "@/assets/brand-logo-combined.svg";
 import { useGlobalState } from "@/context/globalstateContainer"; // Adjust the import path
+import { useOnboardingContext } from "@/context/OnboardingContext";
 
 interface Props {
   children: ReactNode;
@@ -32,20 +33,48 @@ const componentsMap: Record<
 };
 
 const OnboardingPage: React.FC<Props> = ({ children }: Props) => {
+  //  const { selectedSection, setSelectedSection } = useOnboardingContext();
+
+  // const { state, dispatch } = useGlobalState();
+  // console.log(state);
+  // const [selectedSection, setSelectedSection] = useState("workexperience");
+  // const [backSelectedSection, setBackSelectedSection] = useState("");
+  // const currentIndex = componentsMap[selectedSection].index;
+
+  // const handleSectionChange = (section: string) => {
+  //   // dispatch({ type: "SET_INDEX", payload: selectedSection });
+  //   setBackSelectedSection(section);
+  //   const nextIndex = componentsMap[section].index;
+  //   setSelectedSection(section);
+  //   const direction = nextIndex > currentIndex ? 1 : -1;
+  //   setTransitionDirection(direction);
+  // };
+  // const handleBackSection = () => {
+  //   if (componentsMap[backSelectedSection].index > 0) {
+  //     const previousIndex = componentsMap[backSelectedSection].index - 1;
+  //     const previousSection = Object.keys(componentsMap).find(
+  //       (key) => componentsMap[key].index === previousIndex
+  //     );
+  //     if (previousSection) {
+  //       setSelectedSection(previousSection);
+  //       setTransitionDirection(-1); // Set direction to move left
+  //     }
+  //   }
+  // };
+  const { selectedSection, setSelectedSection } = useOnboardingContext();
   const { state, dispatch } = useGlobalState();
-  console.log(state);
-  const [selectedSection, setSelectedSection] = useState("workexperience");
   const [backSelectedSection, setBackSelectedSection] = useState("");
   const currentIndex = componentsMap[selectedSection].index;
+  // const [transitionDirection, setTransitionDirection] = useState(1);
 
   const handleSectionChange = (section: string) => {
-    // dispatch({ type: "SET_INDEX", payload: selectedSection });
     setBackSelectedSection(section);
     const nextIndex = componentsMap[section].index;
     setSelectedSection(section);
     const direction = nextIndex > currentIndex ? 1 : -1;
     setTransitionDirection(direction);
   };
+
   const handleBackSection = () => {
     if (componentsMap[backSelectedSection].index > 0) {
       const previousIndex = componentsMap[backSelectedSection].index - 1;
@@ -122,6 +151,3 @@ const OnboardingPage: React.FC<Props> = ({ children }: Props) => {
 };
 
 export default OnboardingPage;
-function handleNextSection(): void {
-  throw new Error("Function not implemented.");
-}
